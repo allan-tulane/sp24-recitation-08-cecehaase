@@ -14,6 +14,21 @@ def shortest_shortest_path(graph, source):
     """
     ### TODO
     pass
+    if len(graph) == 0:
+        return {}
+    else:
+        shortest_path = {}
+        for node in graph:
+            shortest_path[node] = (float('inf'), 0)
+        shortest_path[source] = (0, 0)
+        q = deque([source])
+        while q:
+            node = q.popleft()
+            for neighbor, weight in graph[node]:
+                if shortest_path[neighbor][0] > shortest_path[node][0] + weight:
+                    shortest_path[neighbor] = (shortest_path[node][0] + weight, shortest_path[node][1] + 1)
+                    q.append(neighbor)
+        return shortest_path
     
 
     
@@ -26,6 +41,21 @@ def bfs_path(graph, source):
     """
     ###TODO
     pass
+    if len(graph) == 0:
+      return {}
+    else:
+      parents = {}
+      for node in graph:
+        parents[node] = None
+      parents[source] = source
+      q = deque([source])
+      while q:
+        node = q.popleft()
+        for neighbor in graph[node]:
+          if parents[neighbor] is None:
+            parents[neighbor] = node
+            q.append(neighbor)
+      return parents
 
 def get_sample_graph():
      return {'s': {'a', 'b'},
@@ -35,14 +65,18 @@ def get_sample_graph():
             'd': {}
             }
 
-
-    
 def get_path(parents, destination):
-    """
-    Returns:
-      The shortest path from the source node to this destination node 
-      (excluding the destination node itself). See test_get_path for an example.
-    """
-    ###TODO
-    pass
+  """
+  Returns:
+  The shortest path from the source node to this destination node 
+  (excluding the destination node itself). See test_get_path for an example.
+  """
+  path = []
+  while destination in parents:
+      #path.append(destination)
+      destination = parents[destination]
+      path.insert(0, destination)
+  return ''.join(path)
+      
+      
 
